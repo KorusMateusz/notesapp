@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  form(method='POST' action='/register')
+    div.form-group
+      input#name.form-control(type='text', placeholder='Nickname' name='nickname' required)
+    div.form-group
+      input#email.form-control(type='email', placeholder='E-mail address' name='email' required)
+    div.form-group
+      input#pw.form-control(type='password' placeholder='Password' name='password' required)
+    div.form-group
+      input#pw2.form-control(type='password' placeholder='Confirm password' name='confirmPassword' required)
+    button.btn.btn-primary(type='submit') Sign up
