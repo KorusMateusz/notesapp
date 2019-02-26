@@ -50,20 +50,6 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true }, (err, db) => {
     console.log('Database error: ' + err);
   } else {
     console.log('Successful database connection');
-
-    passport.serializeUser((user, done) => {
-      done(null, user.id);
-    });
-
-    passport.deserializeUser((id, done) => {
-      db.collection('socialusers').findOne(
-        {id: id},
-        (err, doc) => {
-          done(null, doc);
-        }
-      );
-    });
-
   }});
 
 
