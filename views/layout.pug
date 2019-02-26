@@ -4,6 +4,15 @@ html
   head
     title= "The Notes App - " + title
     link(rel='stylesheet', href='/stylesheets/style.css')
+  header
+    a#home-btn(class="button" href="/") Home
+    if user
+      a#profile-btn(class="button" href="/profile") Profile
+      a#logout-btn(class="button" href="/auth/logout") Logout
+    else
+      a#login-btn(class="button" href="/auth/login") Login
   body
     block content
-  footer Made with ♡ by Mateusz Korus, 2019.
+  footer
+  | Made with ♡ by #[a( href='http://mkorus.eu' target="_blank" ) Mateusz Korus], 2019.<br>
+  | This website uses cookies to ensure its functionality.

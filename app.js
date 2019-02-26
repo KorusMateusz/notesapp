@@ -7,14 +7,12 @@ const sassMiddleware = require('node-sass-middleware');
 const session = require('express-session');
 const passport = require('passport');
 const mongoose = require("mongoose");
-const mongo = require('mongodb').MongoClient;
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const profileRouter = require('./routes/profile');
 const authRouter = require('./routes/auth');
 const passportSetup = require("./config/passport-setup");
-//const localAuth = require('./auth/local');
 
 const app = express();
 
@@ -40,7 +38,9 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
+  maxAge: 60 * 60 * 1000
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -54,7 +54,7 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true }, (err, db) => {
 
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/profile', profileRouter);
 app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler

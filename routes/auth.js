@@ -2,14 +2,20 @@ const express = require('express');
 const router = express.Router();
 const passport = require("passport");
 
-//auth login
-router.get("/login", (req, res) =>{
-  res.render("login")
+const ensureUnauthenticated = (req, res, next) => {
+  if(req.user){ // if logged in
+    return res.redirect("/?event=loggedin")
+  }
+  next()
+};
+
+router.get("/login", ensureUnauthenticated, (req, res) =>{
+  res.render("login", {title: "login"})
 });
 
-//auth logout
 router.get("/logout", (req, res) =>{
-  res.send("logging out")
+  req.logout();
+  res.redirect("/?event=loggedout")
 });
 
 //auth with GitHub
@@ -18,7 +24,7 @@ router.get("/github", passport.authenticate("github"));
 //callback for GitHub
 router.get("/github/redirect",
   passport.authenticate('github', { failureRedirect: '/' }), (req, res)=>{
-    res.send("you reached the callback URI")
+    res.redirect("/profile")
 });
 
 //auth with Google+
@@ -29,7 +35,16 @@ router.get('/google', passport.authenticate('google', {
 //callback for Google
 router.get("/google/redirect",
   passport.authenticate('google', { failureRedirect: '/' }), (req, res)=>{
-    res.send("you reached the Google callback URI")
+    res.redirect("/profile")
+  });
+
+//auth with Facebook
+router.get('/facebook', passport.authenticate('facebook'));
+
+//callback for Facebook
+router.get("/facebook/redirect",
+  passport.authenticate('facebook', { failureRedirect: '/' }), (req, res)=>{
+    res.redirect("/profile")
   });
 
 module.exports = router;

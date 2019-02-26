@@ -1,12 +1,15 @@
 extends layout
 
 block content
-  form(method='POST' action='/login')
+  form(method='POST' action='/auth/login')
     div.form-group
       input#email.form-control(type='email', placeholder='E-mail address' name='email' required)
     div.form-group
       input#pw.form-control(type='password' placeholder='Password' name='password' required)
     button.btn.btn-primary(type='submit') Log in
-    a#github-btn(href="/auth/github") GitHub
+  div#social-buttons
+    a#github-btn(class="button" href="/auth/github") GitHub
     | &nbsp;
-    a#google-btn(href="/auth/google") Google+
+    a#google-btn(class="button" href="/auth/google") Google+
+    | &nbsp;
+    a#facebook-btn(class="button" href="/auth/facebook") Facebook

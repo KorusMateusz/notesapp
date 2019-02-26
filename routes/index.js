@@ -1,17 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const passport = require('passport');
-const bcrypt = require("bcrypt");
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'weclome' });
+  res.render('index', { title: 'weclome', user: req.user, event: req.query.event});
 });
 
-router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'login' });
-});
 
-router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res, next) {
+router.post('/auth/login', passport.authenticate('local', { failureRedirect: '/login?event=failedlogin' }), function(req, res, next) {
   res.redirect('/profile');
 });
 

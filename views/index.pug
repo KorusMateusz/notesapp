@@ -1,6 +1,18 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  a#login(href="/login") Login
+  h1 The Notes App
+  p1
+    | Welcome to The Notes App by Mateusz Korus.<br>
+    | This project was made to demonstrate my skills as a JavaScript developer.<br>
+    | It's built on Node.js Express server, uses three social Passport OAuth strategies and a local one.<br>
+    | E-mail communication needed for the local strategy is provided by nodemailer.<br>
+    | Hashes of passwords encrypted with BCrypt and users' data are stored in a MongoDB database.<br>
+    | Content on the site is displayed using Pug template engine and styling is done with SASS preprocessor.<br>
+    | Hosted on #[a( href='http://mydevil.net' target="_blank" ) mydevil.net]<br>
+    | Code used in this project is available in a #[a( href='https://github.com/Varret/notesapp' target="_blank" ) GitHub repository].
+  if event === "loggedout"
+    p(class="message") Successfully logged out.
+  else if event === "loggedin"
+    //in case user goes to a login page while logged in
+    p(class="message") You're already logged in!
