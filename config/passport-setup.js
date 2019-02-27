@@ -27,7 +27,8 @@ passport.use(new GitHubStrategy({
     new User({
       strategy: "google",
       username: profile.displayName,
-      authId: profile.id
+      authId: profile.id,
+      registered: new Date()
     }).save().then((newUser)=>{
       console.log("new user created: " + newUser);
       return done(null, newUser)
@@ -48,7 +49,8 @@ passport.use(new GoogleStrategy({
     new User({
       strategy: "google",
       username: profile.displayName,
-      authId: profile.id
+      authId: profile.id,
+      registered: new Date()
     }).save().then((newUser)=>{
       console.log("new user created: " + newUser);
       return done(null, newUser)
@@ -70,7 +72,8 @@ passport.use(new FacebookStrategy({
       new User({
         strategy: "facebook",
         username: profile.displayName,
-        authId: profile.id
+        authId: profile.id,
+        registered: new Date()
       }).save().then((newUser)=>{
         console.log("new user created: " + newUser);
         return done(null, newUser)
