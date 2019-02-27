@@ -6,6 +6,7 @@ const userSchema = new Schema({
   username: String,
   authId: String,
   localStrategyToken: String, // token used for setting and resetting password via email
+  password: String,
   registered: Date
 });
 

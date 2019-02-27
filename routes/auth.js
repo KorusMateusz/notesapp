@@ -55,7 +55,7 @@ router.get('/signup', function(req, res) {
 
 //send a token to set up a password for a local strategy
 router.post('/signup', function(req, res) {
-  localHandlers.createAndSendNewToken(req.body.email, req.body.username,(status)=>{
+  localHandlers.createUserAndSendToken(req.body.email, req.body.username,(status)=>{
     res.send(status);
   })
 });
@@ -65,5 +65,11 @@ router.get('/passwordsetup', function(req, res) {
   res.render('password-setup-form', { title: 'Set up your password', token: req.query.token });
 });
 
+router.post('/passwordsetup', function(req, res) {
+  localHandlers.createNewPassword(req.body.token, req.body.password, (err, result)=>{
+    console.log(req.body.token, req.body.password, err, result);
+    res.send(result)
+  })
+});
 
 module.exports = router;
