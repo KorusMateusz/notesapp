@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require("passport");
-const registrationHandler = require("../config/local-registration-handlers");
+const localHandlers = require("../config/local-strategy-handlers");
 
 const ensureUnauthenticated = (req, res, next) => {
   if(req.user){ // if logged in
@@ -50,13 +50,20 @@ router.get("/facebook/redirect",
 
 //registration view for local strategy
 router.get('/signup', function(req, res) {
-  res.render('registration-form', { title: 'Sign Up' });
+  res.render('registration-form', { title: 'Sign up' });
 });
 
+//send a token to set up a password for a local strategy
 router.post('/signup', function(req, res) {
-  registrationHandler.createAndSendNewToken(req.body.email, req.body.username,(status)=>{
+  localHandlers.createAndSendNewToken(req.body.email, req.body.username,(status)=>{
     res.send(status);
   })
 });
+
+//view for setting/reseting password
+router.get('/passwordsetup', function(req, res) {
+  res.render('password-setup-form', { title: 'Set up your password', token: req.query.token });
+});
+
 
 module.exports = router;
