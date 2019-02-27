@@ -54,8 +54,9 @@ router.get('/signup', function(req, res) {
 });
 
 router.post('/signup', function(req, res) {
-
-
+  registrationHandler.createAndSendNewToken(req.body.email, req.body.username,(status)=>{
+    res.send(status);
+  })
 });
 
 module.exports = router;

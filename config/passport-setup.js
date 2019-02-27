@@ -2,7 +2,7 @@ const passport = require("passport");
 const GitHubStrategy = require("passport-github").Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
-const User = require("./mongoose-models");
+const User = require("./mongoose-models").User;
 
 passport.serializeUser((user, done)=>{
   done(null, user.id);
