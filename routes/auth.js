@@ -72,4 +72,9 @@ router.post('/passwordsetup', function(req, res) {
   })
 });
 
+router.get('/passwordresettest', function(req, res) {
+  localHandlers.createAndSendNewToken((req.query.email), (d)=>res.send(d));
+});
+
+
 module.exports = router;
