@@ -3,12 +3,12 @@ var router = express.Router();
 
 const ensureAuthenticated = (req, res, next) => {
   if(!req.user){ // if not logged in
-    return res.redirect("/login")
+    return res.redirect("/auth/login")
   }
   next()
 };
 
-router.get('/', ensureAuthenticated, function(req, res, next) {
+router.get('/', ensureAuthenticated, function(req, res) {
   res.render('profile', {user: req.user});
 });
 

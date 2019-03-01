@@ -14,6 +14,13 @@ router.get("/login", ensureUnauthenticated, (req, res) =>{
   res.render("login", {title: "login"})
 });
 
+//auth with local strategy
+router.post('/login',
+  passport.authenticate('local', { failureRedirect: '/auth/login?event=loginfailed' }),
+  function(req, res) {
+    res.redirect('/profile');
+  });
+
 router.get("/logout", (req, res) =>{
   req.logout();
   res.redirect("/?event=loggedout")
@@ -67,7 +74,6 @@ router.get('/passwordsetup', function(req, res) {
 
 router.post('/passwordsetup', function(req, res) {
   localHandlers.createNewPassword(req.body.token, req.body.password, (err, result)=>{
-    console.log(req.body.token, req.body.password, err, result);
     res.send(result)
   })
 });
