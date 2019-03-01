@@ -7,12 +7,9 @@ const User = require("./mongoose-models").User;
 const createToken = () => crypto.randomBytes(16).toString('hex');
 
 function checkIfRegistered(email, callback){
-  User.findOne({authId: email, strategy: "local"}).then((currentUser)=>{
-    if(currentUser){
-      return callback(currentUser);
-    }
-    return callback(false);
-  });
+  User.findOne({authId: email, strategy: "local"}).then((currentUser)=> {
+    return callback(currentUser);
+  })
 }
 
 function createUserAndSendToken(email, username, callback){
