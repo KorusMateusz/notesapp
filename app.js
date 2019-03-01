@@ -10,7 +10,7 @@ const mongoose = require("mongoose");
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
-const profileRouter = require('./routes/profile');
+const userRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
 const passportSetup = require("./config/passport-setup");
 
@@ -45,7 +45,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true }, (err, db) => {
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true }, (err) => {
   if(err) {
     console.log('Database error: ' + err);
   } else {
@@ -54,7 +54,7 @@ mongoose.connect(process.env.DATABASE, { useNewUrlParser: true }, (err, db) => {
 
 
 app.use('/', indexRouter);
-app.use('/profile', profileRouter);
+app.use('/user', userRouter);
 app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
@@ -63,7 +63,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

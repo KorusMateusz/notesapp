@@ -1,13 +1,16 @@
 extends layout
 
 block content
+  script(src="/javascripts/recaptcha-loader.js")
   form(method='POST' action='/auth/login')
     div.form-group
       input#email.form-control(type='email', placeholder='E-mail address' name='email' required)
     div.form-group
       input#pw.form-control(type='password' placeholder='Password' name='password' required)
     button.btn.btn-primary(type='submit') Log in
+    div#recaptcha
     a#signup-btn(href="/auth/signup") Sign up
+  script(src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer)
   div#social-buttons
     a#github-btn(class="button" href="/auth/github") GitHub
     | &nbsp;
