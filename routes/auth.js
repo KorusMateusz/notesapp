@@ -13,19 +13,22 @@ const ensureUnauthenticated = (req, res, next) => {
   next()
 };
 
+function verifyCaptcha(req, res, next) {
+  if (req.recaptcha.error) {
+    res.send("Captcha error, please try again.")
+  } else {
+    return next();
+  }
+}
+
 router.get("/login", ensureUnauthenticated, recaptcha.middleware.render, (req, res) =>{
   res.render("login", {title: "login", captcha:res.recaptcha})
 });
 
 //auth with local strategy
-router.post('/login', recaptcha.middleware.verify,
-  passport.authenticate('local', { failureRedirect: '/auth/login?event=loginfailed' }),
-  function(req, res) {
-    if (!req.recaptcha.error) {
-      return res.redirect('/user');
-    }
-    return res.send("Rechaptcha error, please try again")
-  });
+router.post('/login', recaptcha.middleware.verify, verifyCaptcha,
+  passport.authenticate('local', { failureRedirect: '/auth/login?event=loginfailed',  successRedirect: '/user'})
+  );
 
 router.get("/logout", (req, res) =>{
   req.logout();
@@ -67,7 +70,7 @@ router.get('/signup', recaptcha.middleware.render, function(req, res) {
 });
 
 //send a token to set up a password for a local strategy
-router.post('/signup', recaptcha.middleware.verify, function(req, res) {
+router.post('/signup', recaptcha.middleware.verify, verifyCaptcha, function(req, res) {
   localHandlers.createUserAndSendToken(req.body.email, req.body.username,(status)=>{
     res.send(status);
   })
@@ -84,8 +87,15 @@ router.post('/passwordsetup', function(req, res) {
   })
 });
 
-router.get('/passwordresettest', function(req, res) {
-  localHandlers.createAndSendNewToken((req.query.email), (d)=>res.send(d));
+//view for "forgot password"
+router.get('/passwordreset', recaptcha.middleware.render, function(req, res ){
+  res.render("password-reset-form", {title: "Password reset"})
+});
+
+router.post('/passwordreset', recaptcha.middleware.verify, verifyCaptcha, function(req, res) {
+  localHandlers.createAndSendNewToken((req.body.email), (result)=>{
+    res.send(result);
+  })
 });
 
 module.exports = router;
