@@ -16,6 +16,7 @@
     "express-recaptcha": "^4.1.1",
     "express-session": "^1.15.6",
     "http-errors": "~1.6.2",
+    "jquery": "^3.3.1",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.15",
     "morgan": "~1.9.0",

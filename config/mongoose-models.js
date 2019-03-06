@@ -12,4 +12,14 @@ const userSchema = new Schema({
 
 const User = mongoose.model("user", userSchema);
 
-module.exports = {User};
+const noteSchema = new Schema({
+  userId: String,
+  title: String,
+  note: String,
+  created: Date,
+  modified: Date
+});
+
+const Note = mongoose.model("note", noteSchema);
+
+module.exports = {User, Note};
