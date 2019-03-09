@@ -2,20 +2,8 @@ extends layout
 
 block content
   script(src="/jquery.js")
-  script(src="/javascripts/notes-client-jqueries.js")
+  script(src="/javascripts/notes-view-handlers.js")
   div#notes
-    each note in notes
-      div(id=note._id, class="note")
-        - var timeConvertOptions =  { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: "2-digit", minute: "2-digit"};
-        p(class="note-title")=note.title
-        p(class="note-text")=note.note
-        p(class="created-timestamp") Created #{note.created.toLocaleString("en", timeConvertOptions)}
-        if (note.modified.toString() !== note.created.toString())
-          p Last modified
-            div(class="modified-timestamp")=note.modified.toLocaleString("en", timeConvertOptions)
-        button(class="update-button", onclick=`beginNoteEdit("${note._id}")`) Edit
-        button(class="delete-button", onclick=`deleteNote("${note._id}")`) Delete
-
 
   div(class='new-note-form')
     input(class="note-title" type='input', placeholder='Title' name='title')

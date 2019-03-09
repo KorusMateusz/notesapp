@@ -14,9 +14,13 @@ router.get('/', ensureAuthenticated, function(req, res) {
 });
 
 router.get('/notes', ensureAuthenticated, function(req, res) {
+    return res.render('notes', {user: req.user})
+});
+
+router.get('/notes/fetch', ensureAuthenticated, function(req, res) {
   crudHandlers.readNotes(req.user._id, (err, done) =>{
-    if (err) return res.render(err);
-    return res.render('notes', {user: req.user, notes: done})
+    if (err) return res.send(err);
+    return res.send(done)
   });
 });
 

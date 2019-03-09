@@ -1,4 +1,3 @@
-const User = require("./mongoose-models").User;
 const Note = require("./mongoose-models").Note;
 
 
@@ -18,7 +17,7 @@ function readNotes (userId, callback) {
 }
 
 function updateNote (noteId, title, note, callback) {
-  Note.findByIdAndUpdate(noteId, {title: title, note: note, modified: new Date()}, callback)
+  Note.findByIdAndUpdate(noteId, {title: title, note: note, modified: new Date()}, {new: true},  callback)
 }
 
 function deleteNote (noteId, callback) {

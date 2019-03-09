@@ -1,5 +1,74 @@
 const timeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: "2-digit", minute: "2-digit"};
 
+function convertNoteToHTML(text){
+  if(text) {
+    return text.replace(/(?:\r\n|\r|\n)/g, '<br>');
+  }
+  return "";
+}
+
+function convertNoteToJS(text){
+  if (text) {
+    return text.replace(/<br>/g, "\n");
+  }
+  return "";
+}
+
+function appendNewNote(note) {
+  // append new note to the document
+  let newNote = $(`<div>`,
+    {
+      id: note._id,
+      class: "note"
+    });
+  newNote.append($("<p>",
+    {
+      text: note.title,
+      class: "note-title"
+    }));
+
+  newNote.append($("<p>",
+    { // checking if text exists and replacing line break characters
+      html: convertNoteToHTML(note.note),
+      class: "note-text"
+    }));
+  newNote.append($("<p>",
+    {
+      text: `Created ${new Date(note.created).toLocaleString("en", timeFormatOptions)}`,
+      class: "created-timestamp"
+    }));
+  if(note.modified){
+    newNote.append($("<p>",
+      {
+        text: `Last modified ${new Date(note.modified).toLocaleString("en", timeFormatOptions)}`,
+        class: "modified-timestamp"
+      }));
+  }
+  newNote.append($("<button>",
+    {
+      text: "Edit",
+      class: "update-button",
+      onclick: `beginNoteEdit("${note._id}")`
+    }));
+  newNote.append($("<button>",
+    {
+      text: "Delete",
+      class: "delete-button",
+      onclick: `deleteNote("${note._id}")`
+    }));
+  $("#notes").append(newNote);
+}
+
+$(function() {
+  $.ajax({
+    url: '/user/notes/fetch',
+    type: 'get',
+    success: function (data) {
+      data.forEach((note) => appendNewNote(note))
+    }
+  });
+});
+
 function createNote(){
   const form = $(".new-note-form");
   let noteTitle = form.find(".note-title");
@@ -12,34 +81,7 @@ function createNote(){
       note: noteText.val()
     },
     success: function(data) {
-      // append new note to the document
-      let newNote = $(`<div>`,
-        { id: data._id,
-          class: "note"
-      });
-      newNote.append($("<p>",
-        { text: data.title,
-          class: "note-title"
-        }));
-      newNote.append($("<p>",
-        { text: data.note,
-          class: "note-text"
-        }));
-      newNote.append($("<p>",
-        { text: `Created ${new Date(data.created).toLocaleString("en", timeFormatOptions)}`,
-          class: "created-timestamp"
-        }));
-      newNote.append($("<button>",
-        { text: "Edit",
-          class: "update-button",
-          onclick: `beginNoteEdit("${data._id}")`
-        }));
-      newNote.append($("<button>",
-        { text: "Delete",
-          class: "delete-button",
-          onclick: `deleteNote("${data._id}")`
-        }));
-      $("#notes").append(newNote);
+      appendNewNote(data);
       // clear input fields
       noteTitle.val("");
       noteText.val("");
@@ -52,7 +94,7 @@ function deleteNote(noteId){
   $.ajax({
     url: '/user/notes?noteId=' + noteId,
     type: 'delete',
-    success: function(data) {
+    success: function() {
       $("#"+noteId).remove()
     }
   })
@@ -61,7 +103,7 @@ function deleteNote(noteId){
 function beginNoteEdit(noteId){
   const note = $("#"+noteId);
   const noteTitle = note.find(".note-title").text();
-  const noteText = note.find(".note-text").text();
+  const noteText = note.find(".note-text").html();
   note.children().hide();
   let updateForm = $(`<div class="update-form"/>`);
   updateForm.append($("<input>",
@@ -70,10 +112,11 @@ function beginNoteEdit(noteId){
       value: noteTitle,
       name: 'title'}
   ));
-  updateForm.append($("<input>",
+  updateForm.append($("<textarea>",
     { type: 'text',
       class: 'edit-note-text',
-      value: noteText,
+      // checking if text exists and replacing line break characters
+      text: convertNoteToJS(noteText),
       name: 'note'}
   ));
   updateForm.append($("<button>",
@@ -103,13 +146,10 @@ function submitEditedNote(noteId){
     success: function(data) {
       //update title and text fields with new values
       note.find(".note-title").text(newNoteTitle);
-      note.find(".note-text").text(newNoteText);
-      if(!note.find(".modified-timestamp").text()){
-        //if note wasn't modified before, add "modified" field
-        note.find(".created-timestamp").after($("<p> Last modified <div class='modified-timestamp'></div></p>"));
-      }
+      note.find(".note-text").html(convertNoteToHTML(newNoteText));
       //update field with new timestamp
-      note.find(".modified-timestamp").text(new Date().toLocaleString("en", timeFormatOptions));
+      note.find(".modified-timestamp")
+        .text(`Last modified ${new Date(data.modified).toLocaleString("en", timeFormatOptions)}`);
       form.remove();
       note.children().show();
     }
