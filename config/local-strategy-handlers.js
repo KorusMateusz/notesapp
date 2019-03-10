@@ -1,4 +1,4 @@
-const sendMail = require("./nodemailer-setup");
+const sendTokenMail = require("./nodemailer-setup");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const User = require("./mongoose-models").User;
@@ -24,9 +24,8 @@ function createUserAndSendToken(email, username, callback){
       authId: email,
       localStrategyToken: token,
       registered: new Date()
-    }).save().then((newUser)=>{
-      sendMail(email, "The Notes App - registration", `Welcome, ${newUser.username}, here's your activation link: 
-      http://localhost:3000/auth/passwordsetup?token=${token}`,
+    }).save().then((user)=>{
+      sendTokenMail(email, {username: user.username, subject: "registration", token: token},
         callback("Registration mail sent successfully"));
     });
   });
@@ -39,9 +38,8 @@ function createAndSendNewToken (email, callback){
     }
     const token = createToken();
     user.localStrategyToken = token;
-    user.save().then((newUser)=> {
-      sendMail(email, "The Notes App - password reset", `Welcome, ${newUser.username}, here's your password reset link: 
-      http://localhost:3000/auth/passwordsetup?token=${token}`,
+    user.save().then((user)=> {
+      sendTokenMail(email, {username: user.username, subject: "password reset", token: token},
         callback("Password reset mail sent successfully"));
     });
   });
