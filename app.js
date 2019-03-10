@@ -7,6 +7,7 @@ const sassMiddleware = require('node-sass-middleware');
 const session = require('express-session');
 const passport = require('passport');
 const mongoose = require("mongoose");
+const helmet = require("helmet");
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
@@ -15,6 +16,8 @@ const authRouter = require('./routes/auth');
 const passportSetup = require("./config/passport-setup");
 
 const app = express();
+app.use(helmet());
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -75,3 +78,5 @@ app.use(function(err, req, res) {
 });
 
 module.exports = app;
+
+

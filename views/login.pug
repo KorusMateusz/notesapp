@@ -2,6 +2,11 @@ extends layout
 
 block content
   script(src="/javascripts/recaptcha-loader.js")
+  if event === "passwordset"
+    p(class="message") Password set successfully, you can now log in.
+  else if event === "loginfailed"
+    p(class="message") Incorrect e-mail and/or password.
+     a(href='/auth/passwordreset') Reset your password.
   form(method='POST' action='/auth/login')
     div.form-group
       input#email.form-control(type='email', placeholder='E-mail address' name='email' required)

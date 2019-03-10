@@ -34,20 +34,24 @@ function createUserAndSendToken(email, username, callback){
 function createAndSendNewToken (email, callback){
   checkIfRegistered(email, (user)=>{
     if (!user){
-      return callback("Email not found")
+      return callback("Email not found", null)
     }
     const token = createToken();
     user.localStrategyToken = token;
     user.save().then((user)=> {
       sendTokenMail(email, {username: user.username, subject: "password reset", token: token},
-        callback("Password reset mail sent successfully"));
+        callback(null, "Password reset mail sent successfully"));
     });
   });
 }
 
 function createNewPassword(token, newPassword, callback){
   const hash = bcrypt.hashSync(newPassword, 12);
-  User.findOneAndUpdate({localStrategyToken: token}, {password: hash, localStrategyToken: null}, callback);
+  User.findOneAndUpdate({localStrategyToken: token}, {password: hash, localStrategyToken: null}, (err, done)=> {
+    if (err) return callback(err, null);
+    if (!done) return callback("User not found", null);
+    return callback(null, done);
+  });
 }
 
 module.exports = {createUserAndSendToken, createAndSendNewToken, createNewPassword};

@@ -73,6 +73,9 @@ function createNote(){
   const form = $(".new-note-form");
   let noteTitle = form.find(".note-title");
   let noteText = form.find(".note-text");
+  if(noteTitle === ""){
+    return alert("You need to provide a title")
+  }
   $.ajax({
     url: '/user/notes',
     type: 'post',
@@ -135,6 +138,9 @@ function submitEditedNote(noteId){
   const form = note.find(".update-form");
   const newNoteTitle = form.find(".edit-note-title").val();
   const newNoteText = form.find(".edit-note-text").val();
+  if(newNoteTitle === ""){
+    return alert("You need to provide a title")
+  }
   $.ajax({
     url: '/user/notes',
     type: 'put',
@@ -156,9 +162,9 @@ function submitEditedNote(noteId){
   })
 }
 
-
 function cancelNoteEdit(noteId){
   const note = $("#"+noteId);
   note.find(".update-form").remove();
   note.children().show();
 }
+

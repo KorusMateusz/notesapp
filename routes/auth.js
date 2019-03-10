@@ -8,7 +8,7 @@ const recaptcha = new Recaptcha('6Lfs2JQUAAAAAGxxjFQ2ZyizwlzwH3-ZU5pC9j_T', proc
 
 const ensureUnauthenticated = (req, res, next) => {
   if(req.user){ // if logged in
-    return res.redirect("/?event=alreadyloggedin")
+    return res.redirect("/")
   }
   next()
 };
@@ -22,7 +22,7 @@ function verifyCaptcha(req, res, next) {
 }
 
 router.get("/login", ensureUnauthenticated, recaptcha.middleware.render, (req, res) =>{
-  res.render("login", {title: "login", captcha:res.recaptcha})
+  res.render("login", {title: "login", captcha:res.recaptcha, event:req.query.event})
 });
 
 //auth with local strategy
@@ -82,8 +82,11 @@ router.get('/passwordsetup', function(req, res) {
 });
 
 router.post('/passwordsetup', function(req, res) {
-  localHandlers.createNewPassword(req.body.token, req.body.password, (err, result)=>{
-    res.send(result)
+  localHandlers.createNewPassword(req.body.token, req.body.password, (err)=>{
+    if(err){
+      return res.redirect("/?event=invalidtoken")
+    }
+    return res.redirect("/auth/login/?event=createdaccount")
   })
 });
 
@@ -93,8 +96,11 @@ router.get('/passwordreset', recaptcha.middleware.render, function(req, res ){
 });
 
 router.post('/passwordreset', recaptcha.middleware.verify, verifyCaptcha, function(req, res) {
-  localHandlers.createAndSendNewToken((req.body.email), (result)=>{
-    res.send(result);
+  localHandlers.createAndSendNewToken((req.body.email), (err)=>{
+    if(err){
+      return res.redirect("/?event=usernotfound")
+    }
+    return res.redirect("/?event=tokensent");
   })
 });
 

@@ -2,17 +2,22 @@ extends layout
 
 block content
   h1 The Notes App
-  p1
+  if event === "loggedout"
+    p(class="message") Successfully logged out.
+  else if event === "createdaccount"
+    p(class="message") Account created successfully, please check your inbox.
+  else if event === "tokensent"
+    p(class="message") Password reset link sent successfully, please check your inbox.
+  else if event === "invalidtoken"
+    p(class="message") Invalid token. Password was not changed. #[a( href='/auth/passwordreset') Send new token.]
+  else if event === "usernotfound"
+    p(class="message") E-mail not found. #[a( href='/auth/register') You can always sign up.]
+  p(class="description")
     | Welcome to The Notes App by Mateusz Korus.<br>
     | This project was made to demonstrate my skills as a JavaScript developer.<br>
     | It's built on Node.js Express server, uses three social Passport OAuth strategies and a local one.<br>
     | E-mail communication needed for the local strategy is provided by nodemailer.<br>
     | Hashes of passwords encrypted with BCrypt and users' data are stored in a MongoDB database.<br>
-    | Content on the site is displayed using Pug template engine and styling is done with SASS preprocessor.<br>
+    | Pages on the site are displayed using Pug template engine and styling is done with SASS preprocessor.<br>
     | Hosted on #[a( href='http://mydevil.net' target="_blank" ) mydevil.net]<br>
     | Code used in this project is available in a #[a( href='https://github.com/Varret/notesapp' target="_blank" ) GitHub repository].
-  if event === "loggedout"
-    p(class="message") Successfully logged out.
-  else if event === "loggedin"
-    //in case user goes to a login page while logged in
-    p(class="message") You're already logged in!
