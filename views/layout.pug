@@ -4,6 +4,8 @@ html
   head
     title= "The Notes App - " + title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="/jquery.js")
+    script(src='/javascripts/message-popup-handler.js')
   navbar
     a#home-btn(class="button" href="/") Home
     if user

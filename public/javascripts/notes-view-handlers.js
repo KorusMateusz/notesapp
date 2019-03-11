@@ -1,4 +1,5 @@
-const timeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: "2-digit", minute: "2-digit"};
+const formatDate = (date) => new Date(date).toLocaleString("en",
+  { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' , hour: "2-digit", minute: "2-digit"});
 
 function convertNoteToHTML(text){
   if(text) {
@@ -21,44 +22,45 @@ function appendNewNote(note) {
       id: note._id,
       class: "note"
     });
-  newNote.append($("<p>",
+  newNote.append($("<div>",
     {
       text: note.title,
       class: "note-title"
     }));
 
-  newNote.append($("<p>",
+  newNote.append($("<div>",
     { // checking if text exists and replacing line break characters
       html: convertNoteToHTML(note.note),
       class: "note-text"
     }));
-  newNote.append($("<p>",
+  newNote.append($("<div>",
     {
-      text: `Created ${new Date(note.created).toLocaleString("en", timeFormatOptions)}`,
-      class: "created-timestamp"
+      text: `Created: ${formatDate(note.created)}`,
+      class: "created timestamp"
     }));
-  if(note.modified){
-    newNote.append($("<p>",
-      {
-        text: `Last modified ${new Date(note.modified).toLocaleString("en", timeFormatOptions)}`,
-        class: "modified-timestamp"
-      }));
-  }
-  newNote.append($("<button>",
+  newNote.append($("<div>",
+    {
+      text: `Last modified: ${formatDate(note.modified)}`,
+      class: "modified timestamp"
+    }));
+  let buttonDiv = ($("<div class='note-control-buttons'>"));
+  buttonDiv.append($("<button>",
     {
       text: "Edit",
       class: "update-button",
       onclick: `beginNoteEdit("${note._id}")`
     }));
-  newNote.append($("<button>",
+  buttonDiv.append($("<button>",
     {
       text: "Delete",
       class: "delete-button",
       onclick: `deleteNote("${note._id}")`
     }));
+  newNote.append(buttonDiv);
   $("#notes").append(newNote);
 }
 
+// load users notes and make textarea elements auto resizable
 $(function() {
   $.ajax({
     url: '/user/notes/fetch',
@@ -70,12 +72,9 @@ $(function() {
 });
 
 function createNote(){
-  const form = $(".new-note-form");
+  const form = $("#new-note-form");
   let noteTitle = form.find(".note-title");
   let noteText = form.find(".note-text");
-  if(noteTitle === ""){
-    return alert("You need to provide a title")
-  }
   $.ajax({
     url: '/user/notes',
     type: 'post',
@@ -111,25 +110,29 @@ function beginNoteEdit(noteId){
   let updateForm = $(`<div class="update-form"/>`);
   updateForm.append($("<input>",
     { type: 'text',
-      class: 'edit-note-title',
+      class: 'note-title note-input-field edit-note-title',
       value: noteTitle,
-      name: 'title'}
+      name: 'title',
+      autocomplete: "off"}
   ));
   updateForm.append($("<textarea>",
     { type: 'text',
-      class: 'edit-note-text',
+      class: 'note-text note-input-field edit-note-text',
       // checking if text exists and replacing line break characters
       text: convertNoteToJS(noteText),
-      name: 'note'}
+      name: 'note',
+      autocomplete: "off"}
   ));
-  updateForm.append($("<button>",
+  let buttonDiv = ($("<div class='note-control-buttons'>"));
+  buttonDiv.append($("<button>",
     { text: "Submit Update",
       onclick: `submitEditedNote("${noteId}")`}
   ));
-  updateForm.append($("<button>",
+  buttonDiv.append($("<button>",
     { text: "Cancel Edit",
       onclick: `cancelNoteEdit("${noteId}")`}
   ));
+  updateForm.append(buttonDiv);
   note.append(updateForm);
 }
 
@@ -138,9 +141,6 @@ function submitEditedNote(noteId){
   const form = note.find(".update-form");
   const newNoteTitle = form.find(".edit-note-title").val();
   const newNoteText = form.find(".edit-note-text").val();
-  if(newNoteTitle === ""){
-    return alert("You need to provide a title")
-  }
   $.ajax({
     url: '/user/notes',
     type: 'put',
@@ -154,10 +154,10 @@ function submitEditedNote(noteId){
       note.find(".note-title").text(newNoteTitle);
       note.find(".note-text").html(convertNoteToHTML(newNoteText));
       //update field with new timestamp
-      note.find(".modified-timestamp")
-        .text(`Last modified ${new Date(data.modified).toLocaleString("en", timeFormatOptions)}`);
       form.remove();
       note.children().show();
+      note.find(".modified")
+        .text(`Last modified: ${formatDate(data.modified)}`);
     }
   })
 }

@@ -6,7 +6,7 @@ block content
 
   div#notes
 
-  div(class='new-note-form')
-    input(class="note-title" type='input', placeholder='Title' name='title')
-    input(class="note-text" type='input' placeholder='Note' name='note')
-    button(onclick=`createNote()`) Create a new note
+    div#new-note-form(class="note")
+      input(class="note-title note-input-field" type='input', placeholder='Title' name='title' autocomplete="off")
+      textarea(class="note-text note-input-field" type='input' placeholder='Note' name='note' autocomplete="off")
+      button(onclick=`createNote()`) Create a new note

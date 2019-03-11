@@ -61,7 +61,7 @@ passport.use(new LocalStrategy({
   console.log(username, password);
     User.findOne({ authId: username }, function (err, user) {
       if (err) { return done(err); }
-      if (!user) { return done(null, false); }
+      if (!user.password) { return done(null, false)}
       if (!bcrypt.compareSync(password, user.password)) { return done(null, false); }
       return done(null, user);
     });

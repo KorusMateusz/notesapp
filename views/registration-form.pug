@@ -2,11 +2,10 @@ extends layout
 
 block content
   script(src="/javascripts/recaptcha-loader.js")
+  h1 The Notes App - register
   form(method='POST' action='/auth/signup')
-    div.form-group
-      input#name.form-control(type='text', placeholder='Username' name='username' required)
-    div.form-group
-      input#email.form-control(type='email', placeholder='E-mail address' name='email' required)
-      div#recaptcha
-    button.btn.btn-primary(type='submit') Sign up
+    input#name.form-control(type='text', placeholder='Username' name='username' required)
+    input#email.form-control(type='email', placeholder='E-mail address' name='email' required)
+    div#recaptcha
+    button(type='submit') Sign up
     script(src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer)

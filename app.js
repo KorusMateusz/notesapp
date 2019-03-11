@@ -16,7 +16,7 @@ const authRouter = require('./routes/auth');
 const passportSetup = require("./config/passport-setup");
 
 const app = express();
-app.use(helmet());
+app.use(helmet({noSniff: false}));
 
 
 // view engine setup
@@ -36,6 +36,8 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '/node_modules/jquery/dist/')));
+app.use(express.static(path.join(__dirname, '/node_modules/font-awesome/')));
+
 
 
 app.use(session({

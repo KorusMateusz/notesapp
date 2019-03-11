@@ -1,19 +1,205 @@
 body {
-  padding: 50px;
+  width: 100%;
+  margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: aqua; }
-
-header {
-  margin-bottom: 15px; }
-
-.button {
-  color: #00B7FF;
-  padding: 10px;
-  margin-right: 5px;
+  display: flex;
+  flex-direction: column;
   background-color: aliceblue; }
 
+navbar {
+  position: sticky;
+  top: 0;
+  height: 7.5vh;
+  width: 100%;
+  background-color: #00B7FF;
+  align-self: flex-start;
+  align-items: center; }
+  navbar a {
+    float: left;
+    font-size: 3vh;
+    padding: 2vh;
+    color: white;
+    background-color: #00B7FF;
+    text-align: center;
+    text-decoration: none; }
+    navbar a:Hover {
+      background-color: blue; }
+
+#content {
+  min-height: calc(99vh - 6vh - 7.5vh);
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+footer {
+  position: relative;
+  height: 6vh;
+  width: 100%;
+  margin-top: 1vh;
+  text-align: center;
+  background-color: aliceblue; }
+
+h1 {
+  text-align: center;
+  padding: 2vh;
+  margin: 5vh;
+  width: 60%;
+  background-color: #41ffda;
+  border-radius: 10px;
+  font-size: 35px; }
+
+p {
+  width: 80%;
+  padding: 2vh;
+  background-color: #41ffda;
+  border-radius: 10px;
+  font-size: 16px; }
+
+button {
+  margin: 2vh;
+  width: 40%;
+  height: 5vh;
+  font-size: 3vh;
+  font-weight: bold;
+  border-radius: 5px; }
+
+.message {
+  display: none;
+  position: absolute;
+  top: 30vh;
+  text-align: center;
+  align-self: center;
+  width: 50%;
+  padding: 5vh;
+  background-color: deepskyblue;
+  border: 1vh solid blue;
+  border-radius: 10px;
+  font-size: 35px; }
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  background-color: #41ffda;
+  padding: 2vh;
+  border-radius: 10px; }
+  form input {
+    width: 80%;
+    height: 5vh;
+    font-size: 3vh;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 2vh;
+    background-color: aliceblue; }
+
 #social-buttons {
+  display: flex;
+  flex-direction: row;
   margin-top: 15px;
-  margin-bottom: 15px; }
+  margin-bottom: 15px;
+  width: auto; }
+  #social-buttons .social-link {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    border: solid transparent;
+    font-size: 150%;
+    text-decoration: none;
+    color: white; }
+  #social-buttons .social-button {
+    border-radius: 15px;
+    margin: 0.5vh;
+    padding: 1vh; }
+  #social-buttons #facebook-button {
+    background-color: #3b5998; }
+    #social-buttons #facebook-button:Hover {
+      background-color: #2d4373; }
+  #social-buttons #google-button {
+    background-color: #dd4b39; }
+    #social-buttons #google-button:Hover {
+      background-color: #c23321; }
+  #social-buttons #github-button {
+    background-color: #444444; }
+    #social-buttons #github-button:Hover {
+      background-color: #2b2b2b; }
+  #social-buttons.vertical-line {
+    border-left: 1px solid black; }
+
+#notes-link {
+  display: flex;
+  align-items: center;
+  height: 20vh;
+  width: 80%;
+  padding: 2vh;
+  background-color: #41ffda;
+  text-align: center;
+  border-radius: 15px;
+  text-decoration: none; }
+  #notes-link div {
+    color: black;
+    text-align: center;
+    width: 100%;
+    font-size: 250%;
+    font-weight: bold; }
+  #notes-link:Hover {
+    background-color: blue; }
+
+#notes {
+  margin: 0 5vh 0 5vh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; }
+
+.note {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #41ffda;
+  margin: 1vh;
+  padding: 1vh;
+  border-radius: 5px;
+  min-width: 15vw;
+  max-width: 98vh;
+  position: relative; }
+  .note textarea {
+    min-width: 15vw; }
+  .note .update-form {
+    display: flex;
+    flex-direction: column; }
+  .note .note-input-field {
+    background-color: #41ffda;
+    border: none; }
+  .note * {
+    word-wrap: break-word; }
+  .note .note-title {
+    font-size: 150%;
+    font-weight: bold;
+    text-align: center;
+    align-self: center;
+    width: 100%;
+    margin: 1vh;
+    border-bottom: solid grey 1px; }
+  .note .note-text {
+    margin-bottom: 1vh; }
+  .note .timestamp {
+    text-align: right;
+    font-size: 10px; }
+  .note button {
+    align-self: center;
+    width: 90%;
+    background-color: aliceblue;
+    margin: 1vh;
+    border: none;
+    font-size: 2vh; }
+  .note .note-control-buttons {
+    display: flex;
+    flex-direction: row; }
+
+#new-note-form {
+  order: 1000; }
 
 /*# sourceMappingURL=style.css.map */

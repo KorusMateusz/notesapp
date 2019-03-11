@@ -2,4 +2,6 @@ extends layout
 
 block content
   h1 Welcome, you are logged in as #{user.username}
-  p See your #[a( href='/user/notes' ) notes]
+  p You've been a user since #{user.registered.toLocaleString()}
+  a#notes-link(href='/user/notes')
+      div See your notes

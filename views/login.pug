@@ -2,24 +2,35 @@ extends layout
 
 block content
   script(src="/javascripts/recaptcha-loader.js")
+  link(rel='stylesheet', href='/css/font-awesome.min.css')
+  h1 The Notes App - login
   if event === "passwordset"
     p(class="message") Password set successfully, you can now log in.
   else if event === "loginfailed"
-    p(class="message") Incorrect e-mail and/or password.
-     a(href='/auth/passwordreset') Reset your password.
+    p(class="message") Incorrect e-mail and/or password.<br>
+      a(href='/auth/passwordreset') Reset your password.
   form(method='POST' action='/auth/login')
-    div.form-group
-      input#email.form-control(type='email', placeholder='E-mail address' name='email' required)
-    div.form-group
-      input#pw.form-control(type='password' placeholder='Password' name='password' required)
-    button.btn.btn-primary(type='submit') Log in
+    input#email(type='email', placeholder='E-mail address' name='email' required)
+    input#pw(type='password' placeholder='Password' name='password' required)
     div#recaptcha
-    a#signup-btn(href="/auth/signup") Sign up
+    script(src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer)
+    button(type='submit') Log in<br>
+    a(href="/auth/signup") Sign up
     a#password-reset-btn(href="/auth/passwordreset") Forgot password
-  script(src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer)
-  div#social-buttons
-    a#github-btn(class="button" href="/auth/github") GitHub
-    | &nbsp;
-    a#google-btn(class="button" href="/auth/google") Google+
-    | &nbsp;
-    a#facebook-btn(class="button" href="/auth/facebook") Facebook
+    <br>Login using:&nbsp;
+    div#social-buttons
+      div#facebook-button.social-button
+        a(class="social-link" href="/auth/facebook")
+          i(class="fa fa-facebook-square")
+          div.vertical-line
+          | &nbsp;Facebook
+      div#google-button.social-button
+        a(class="social-link" href="/auth/google")
+          div.vertical-line
+          i(class="fa fa-google-plus-square")
+          | &nbsp;Google+
+      div#github-button.social-button
+        a(class="social-link" href="/auth/github")
+          div.vertical-line
+          i(class="fa fa-github-square")
+          | &nbsp;GitHub
