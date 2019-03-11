@@ -1,12 +1,16 @@
 $site-background-color: aliceblue
 $element-background-color: #41ffda
 $footer-height: 6vh
-$navbar-height: 7.5vh
 
 //general layout
 
+html
+  height: 100%
+  position: relative
+
 body
   width: 100%
+  height: 100%
   margin: 0
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
   display: flex
@@ -16,15 +20,16 @@ body
 navbar
   position: sticky
   top: 0
-  height: $navbar-height
   width: 100%
+  height: auto
   background-color: #00B7FF
   align-self: flex-start
   align-items: center
+  z-index: 100
   & a
     float: left
-    font-size: 3vh
-    padding: 2vh
+    font-size: 20px
+    padding: 13px
     color: white
     background-color: #00B7FF
     text-align: center
@@ -33,7 +38,7 @@ navbar
       background-color: blue
 
 #content
-  min-height: calc(99vh - #{$footer-height} - #{$navbar-height})
+  min-height: calc(99vh - #{$footer-height})
   display: flex
   flex-direction: column
   align-items: center
@@ -63,17 +68,28 @@ p
   font-size: 16px
 
 button
-  margin: 2vh
+  margin: 15px
   width: 40%
-  height: 5vh
-  font-size: 3vh
-  font-weight: bold
+  height: 30px
+  font-size: 20px
   border-radius: 5px
+  background-color: #287cff
+  border-color: #fafbff
+  color: white
+
+
+#opacity-div
+  position: absolute
+  min-height: 100%
+  bottom: 0
+  width: 100%
+  background-color: rgba(0,0,0,.5)
+  pointer-events: none
 
 .message
   display: none // element gets loaded as hidden so it can fade in with jQuery
   position: absolute
-  top: 30vh
+  margin-top: 10vh
   text-align: center
   align-self: center
   width: 50%
@@ -82,7 +98,7 @@ button
   border: 1vh solid blue
   border-radius: 10px
   font-size: 35px
-
+  z-index: 1000
   
 //auth forms styling
 
@@ -90,14 +106,17 @@ form
   display: flex
   flex-direction: column
   align-items: center
-  width: 40%
+  min-width: 40%
+  @media (max-width: 700px)
+    min-width: 60%
+    width: auto
   background-color: $element-background-color
   padding: 2vh
   border-radius: 10px
   & input
     width: 80%
-    height: 5vh
-    font-size: 3vh
+    height: 40px
+    font-size: 25px
     font-weight: bold
     text-align: center
     border: none
@@ -161,7 +180,7 @@ form
 // notes view styling
 
 #notes
-  margin: 0 5vh 0 5vh
+  margin: 0 10px 0 10px
   display: flex
   flex-direction: row
   flex-wrap: wrap
@@ -172,15 +191,15 @@ form
   display: flex
   flex-direction: column
   background-color: $element-background-color
-  margin: 1vh
-  padding: 1vh
+  margin: 5px
+  padding: 7px
   border-radius: 5px
-  min-width: 15vw
-  max-width: 98vh
+  min-width: 30vw
+  max-width: 98vw
   position: relative
   // adding and editing notes
   & textarea
-    min-width: 15vw
+    width: 100%
   // editing notes
   & .update-form
     display: flex
@@ -206,14 +225,13 @@ form
     text-align: right
     font-size: 10px
 
-
   & button // single "create note" button
     align-self: center
-    width: 90%
+    width: 80%
+    color: black
+    font-size: 15px
     background-color: aliceblue
-    margin: 1vh
     border: none
-    font-size: 2vh
   .note-control-buttons
     display: flex
     flex-direction: row

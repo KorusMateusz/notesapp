@@ -3,12 +3,13 @@ html
     style(type="text/css").
       h1{
         text-align: center;
+        color: black;
       }
 
   h1 The Notes App - #{subject}
   div#text
     | Welcome, #{username}, here's your #{subject} link.
-    | http://localhost:3000/auth/passwordsetup?token=#{token}
+    | https://thenotesapp.mkorus.eu/auth/passwordsetup?token=#{token}
   footer
     p
       if subject === "registration"

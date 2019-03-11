@@ -10,11 +10,11 @@ const ensureAuthenticated = (req, res, next) => {
 };
 
 router.get('/', ensureAuthenticated, function(req, res) {
-  res.render('profile', {user: req.user});
+  res.render('profile', {user: req.user, title: "profile"});
 });
 
 router.get('/notes', ensureAuthenticated, function(req, res) {
-    return res.render('notes', {user: req.user})
+    return res.render('notes', {user: req.user, title: "notes"})
 });
 
 router.get('/notes/fetch', ensureAuthenticated, function(req, res) {
