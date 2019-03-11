@@ -15,7 +15,7 @@ function checkIfRegistered(email, callback){
 function createUserAndSendToken(email, username, callback){
   checkIfRegistered(email, (alreadyRegistered)=>{
     if (alreadyRegistered){
-      return callback("Already registered")
+      return callback("Already registered", null)
     }
     const token = createToken();
     new User({
@@ -26,7 +26,7 @@ function createUserAndSendToken(email, username, callback){
       registered: new Date()
     }).save().then((user)=>{
       sendTokenMail(email, {username: user.username, subject: "registration", token: token},
-        callback("Registration mail sent successfully"));
+        callback(null, "Registration mail sent successfully"));
     });
   });
 }

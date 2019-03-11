@@ -15,10 +15,9 @@ const ensureUnauthenticated = (req, res, next) => {
 
 function verifyCaptcha(req, res, next) {
   if (req.recaptcha.error) {
-    res.send("Captcha error, please try again.")
-  } else {
-    return next();
+    return res.redirect(req.route.path + "/?event=captchafailed")
   }
+  return next();
 }
 
 router.get("/login", ensureUnauthenticated, recaptcha.middleware.render, (req, res) =>{
@@ -71,8 +70,9 @@ router.get('/signup', recaptcha.middleware.render, function(req, res) {
 
 //send a token to set up a password for a local strategy
 router.post('/signup', recaptcha.middleware.verify, verifyCaptcha, function(req, res) {
-  localHandlers.createUserAndSendToken(req.body.email, req.body.username,(status)=>{
-    res.send(status);
+  localHandlers.createUserAndSendToken(req.body.email, req.body.username,(err)=>{
+    if (err) return res.redirect("/?event=alreadyregistered");
+    return res.redirect("/?event=createdaccount")
   })
 });
 
@@ -92,7 +92,7 @@ router.post('/passwordsetup', function(req, res) {
 
 //view for "forgot password"
 router.get('/passwordreset', recaptcha.middleware.render, function(req, res ){
-  res.render("password-reset-form", {title: "Password reset"})
+  res.render("password-reset-form", {title: "Password reset", event: req.query.event})
 });
 
 router.post('/passwordreset', recaptcha.middleware.verify, verifyCaptcha, function(req, res) {

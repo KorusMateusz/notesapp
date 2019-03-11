@@ -6,6 +6,8 @@ block content
     p(class="message") Successfully logged out.
   else if event === "createdaccount"
     p(class="message") Account created successfully, please check your inbox.
+  else if event === "alreadyregistered"
+    p(class="message") E-mail already registered.<br>Do you want to #[a( href='/auth/passwordreset') reset your password?]
   else if event === "tokensent"
     p(class="message") Password reset link sent successfully, please check your inbox.
   else if event === "invalidtoken"

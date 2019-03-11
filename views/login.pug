@@ -9,6 +9,8 @@ block content
   else if event === "loginfailed"
     p(class="message") Incorrect e-mail and/or password.<br>
       a(href='/auth/passwordreset') Reset your password.
+  else if event === "captchafailed"
+    p(class="message") Captcha failed. Please try again.
   form(method='POST' action='/auth/login')
     input#email(type='email', placeholder='E-mail address' name='email' required)
     input#pw(type='password' placeholder='Password' name='password' required)
