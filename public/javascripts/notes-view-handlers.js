@@ -47,13 +47,13 @@ function appendNewNote(note) {
   buttonDiv.append($("<button>",
     {
       text: "Edit",
-      class: "update-button",
+      class: "update-button btn btn-light btn-block",
       onclick: `beginNoteEdit("${note._id}")`
     }));
   buttonDiv.append($("<button>",
     {
       text: "Delete",
-      class: "delete-button",
+      class: "delete-button btn btn-light btn-block",
       onclick: `deleteNote("${note._id}")`
     }));
   newNote.append(buttonDiv);
@@ -126,10 +126,12 @@ function beginNoteEdit(noteId){
   let buttonDiv = ($("<div class='note-control-buttons'>"));
   buttonDiv.append($("<button>",
     { text: "Submit Update",
+      class: "btn btn-light btn-block",
       onclick: `submitEditedNote("${noteId}")`}
   ));
   buttonDiv.append($("<button>",
     { text: "Cancel Edit",
+      class: "btn btn-light btn-block",
       onclick: `cancelNoteEdit("${noteId}")`}
   ));
   updateForm.append(buttonDiv);

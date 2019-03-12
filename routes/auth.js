@@ -14,7 +14,6 @@ const ensureUnauthenticated = (req, res, next) => {
 };
 
 function verifyCaptcha(req, res, next) {
-  console.log(req);
   if (req.recaptcha.error) {
     return res.redirect("/auth" + req.route.path + "/?event=captchafailed")
   }
@@ -87,7 +86,7 @@ router.post('/passwordsetup', function(req, res) {
     if(err){
       return res.redirect("/?event=invalidtoken")
     }
-    return res.redirect("/auth/login/?event=createdaccount")
+    return res.redirect("/auth/login/?event=passwordset")
   })
 });
 

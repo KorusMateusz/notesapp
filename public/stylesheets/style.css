@@ -1,15 +1,16 @@
 html {
-  height: 100%;
-  position: relative; }
+  height: 100%; }
 
 body {
+  position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
-  background-color: aliceblue; }
+  background-color: deepskyblue;
+  padding-bottom: 20px; }
 
 navbar {
   position: sticky;
@@ -26,50 +27,50 @@ navbar {
     padding: 13px;
     color: white;
     background-color: #00B7FF;
-    text-align: center;
-    text-decoration: none; }
+    text-align: center; }
     navbar a:Hover {
-      background-color: blue; }
+      background-color: blue;
+      text-decoration: none;
+      color: white; }
 
 #content {
-  min-height: calc(99vh - 6vh);
+  min-height: calc(99vh - 50px - 50px);
   display: flex;
   flex-direction: column;
   align-items: center; }
 
 footer {
   position: relative;
-  height: 6vh;
+  margin-top: -2px;
+  height: 100%;
   width: 100%;
-  margin-top: 1vh;
-  text-align: center;
-  background-color: aliceblue; }
+  text-align: center; }
+  footer a {
+    color: white; }
+    footer a:Hover {
+      color: white; }
 
 h1 {
   text-align: center;
   padding: 2vh;
   margin: 5vh;
   width: 60%;
-  background-color: #41ffda;
+  background-color: #ffffff;
   border-radius: 10px;
   font-size: 35px; }
 
 p {
   width: 80%;
   padding: 2vh;
-  background-color: #41ffda;
+  background-color: #ffffff;
   border-radius: 10px;
   font-size: 16px; }
 
 button {
-  margin: 15px;
-  width: 40%;
-  height: 30px;
-  font-size: 20px;
-  border-radius: 5px;
-  background-color: #287cff;
-  border-color: #fafbff;
-  color: white; }
+  margin: 5px; }
+
+a {
+  text-decoration: none; }
 
 #opacity-div {
   position: absolute;
@@ -90,7 +91,7 @@ button {
   background-color: deepskyblue;
   border: 1vh solid blue;
   border-radius: 10px;
-  font-size: 35px;
+  font-size: 20px;
   z-index: 1000; }
 
 form {
@@ -98,7 +99,7 @@ form {
   flex-direction: column;
   align-items: center;
   min-width: 40%;
-  background-color: #41ffda;
+  background-color: #ffffff;
   padding: 2vh;
   border-radius: 10px; }
   @media (max-width: 700px) {
@@ -155,7 +156,7 @@ form {
   height: 20vh;
   width: 80%;
   padding: 2vh;
-  background-color: #41ffda;
+  background-color: #ffffff;
   text-align: center;
   border-radius: 15px;
   text-decoration: none; }
@@ -179,20 +180,22 @@ form {
   height: auto;
   display: flex;
   flex-direction: column;
-  background-color: #41ffda;
-  margin: 5px;
+  background-color: #ffffff;
+  margin: 20px;
   padding: 7px;
   border-radius: 5px;
-  min-width: 30vw;
   max-width: 98vw;
   position: relative; }
+  @media (min-width: 700px) {
+    .note {
+      min-width: 500px; } }
   .note textarea {
     width: 100%; }
   .note .update-form {
     display: flex;
     flex-direction: column; }
   .note .note-input-field {
-    background-color: #41ffda;
+    background-color: #ffffff;
     border: none; }
   .note * {
     word-wrap: break-word; }
@@ -202,8 +205,7 @@ form {
     text-align: center;
     align-self: center;
     width: 100%;
-    margin: 1vh;
-    border-bottom: solid grey 1px; }
+    margin: 1vh; }
   .note .note-text {
     margin-bottom: 1vh; }
   .note .timestamp {

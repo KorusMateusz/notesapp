@@ -16,7 +16,7 @@ block content
     input#pw(type='password' placeholder='Password' name='password' required)
     div#recaptcha
     script(src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer)
-    button(type='submit') Log in<br>
+    button(type='submit' class="btn btn-primary") Log in<br>
     a(href="/auth/signup") Sign up
     a#password-reset-btn(href="/auth/passwordreset") Forgot password
     <br>Login using:&nbsp;
@@ -24,15 +24,12 @@ block content
       div#facebook-button.social-button
         a(class="social-link" href="/auth/facebook")
           i(class="fa fa-facebook-square")
-          div.vertical-line
           | &nbsp;Facebook
       div#google-button.social-button
         a(class="social-link" href="/auth/google")
-          div.vertical-line
           i(class="fa fa-google-plus-square")
           | &nbsp;Google+
       div#github-button.social-button
         a(class="social-link" href="/auth/github")
-          div.vertical-line
           i(class="fa fa-github-square")
           | &nbsp;GitHub

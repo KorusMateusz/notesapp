@@ -3,9 +3,14 @@ extends layout
 block content
   script(src="/javascripts/recaptcha-loader.js")
   h1 The Notes App - register
+  p
+    | If you want to test the app, but don't want to give out your real e-mail address(which I completely understand),
+    | you can use a service that provides disposable e-mail addresses such as&nbsp;
+    a(href="https://www.guerrillamail.com/" target="_blank") Guerilla mail
+    | . You will need to use activation link sent to you, so don't type an address out of the blue.
   form(method='POST' action='/auth/signup')
-    input#name.form-control(type='text', placeholder='Username' name='username' required)
-    input#email.form-control(type='email', placeholder='E-mail address' name='email' required)
+    input#name(type='text', placeholder='Username' name='username' required)
+    input#email(type='email', placeholder='E-mail address' name='email' required)
     div#recaptcha
-    button(type='submit') Sign up
+    button(type='submit' class="btn btn-primary") Sign up
     script(src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer)

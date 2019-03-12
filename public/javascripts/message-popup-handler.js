@@ -3,11 +3,12 @@ $(function(){
   if(message.length){
     $("html").append($("<div id='opacity-div'>"));
   }
-  message.append("<br>");
+  message.append("<br><br>");
   message.append($("<button>",
     {
       text: "Close",
-      onclick: "closePopUp()"
+      onclick: "closePopUp()",
+      class: "btn btn-secondary"
     }));
   message.fadeIn();
 });

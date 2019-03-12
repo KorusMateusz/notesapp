@@ -1,21 +1,23 @@
-$site-background-color: aliceblue
-$element-background-color: #41ffda
-$footer-height: 6vh
+$site-background-color: deepskyblue
+$element-background-color: #ffffff
+$footer-height: 50px
 
 //general layout
 
 html
   height: 100%
-  position: relative
+
 
 body
+  position: relative
   width: 100%
-  height: 100%
+  min-height: 100%
   margin: 0
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
   display: flex
   flex-direction: column
   background-color: $site-background-color
+  padding-bottom: 20px
 
 navbar
   position: sticky
@@ -33,23 +35,27 @@ navbar
     color: white
     background-color: #00B7FF
     text-align: center
-    text-decoration: none
     &:Hover
       background-color: blue
+      text-decoration: none
+      color: white
 
 #content
-  min-height: calc(99vh - #{$footer-height})
+  min-height: calc(99vh - 50px - #{$footer-height})
   display: flex
   flex-direction: column
   align-items: center
 
 footer
   position: relative
-  height: $footer-height
+  margin-top: -2px
+  height: 100%
   width: 100%
-  margin-top: 1vh
   text-align: center
-  background-color: aliceblue
+  & a
+    color: white
+    &:Hover
+      color: white
 
 h1
   text-align: center
@@ -68,15 +74,10 @@ p
   font-size: 16px
 
 button
-  margin: 15px
-  width: 40%
-  height: 30px
-  font-size: 20px
-  border-radius: 5px
-  background-color: #287cff
-  border-color: #fafbff
-  color: white
+  margin: 5px
 
+a
+  text-decoration: none
 
 #opacity-div
   position: absolute
@@ -97,7 +98,7 @@ button
   background-color: deepskyblue
   border: 1vh solid blue
   border-radius: 10px
-  font-size: 35px
+  font-size: 20px
   z-index: 1000
   
 //auth forms styling
@@ -191,10 +192,11 @@ form
   display: flex
   flex-direction: column
   background-color: $element-background-color
-  margin: 5px
+  margin: 20px
   padding: 7px
   border-radius: 5px
-  min-width: 30vw
+  @media (min-width: 700px)
+    min-width: 500px
   max-width: 98vw
   position: relative
   // adding and editing notes
@@ -218,7 +220,6 @@ form
     align-self: center
     width: 100%
     margin: 1vh
-    border-bottom: solid grey 1px
   & .note-text
     margin-bottom: 1vh
   & .timestamp
