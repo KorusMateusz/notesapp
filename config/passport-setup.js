@@ -16,42 +16,51 @@ passport.deserializeUser((id, done)=>{
   })
 });
 
-function strategySetup(strategy, clientID, clientSecret){
-  // returns a list of parameters needed for strategy setup that is later deconstructed
-  const callbackURL = `/auth/${strategy}/redirect`;
-  return[{
-    callbackURL: callbackURL,
-    clientID: clientID,
-    clientSecret: clientSecret
-  },
-    (accessToken, refreshToken, profile, done) => {
-      User.findOne({strategy: strategy, authId: profile.id}).then((currentUser)=>{
-        if(currentUser){
-          return done(null, currentUser);
-        }
-        new User({
-          strategy: strategy,
-          username: profile.displayName,
-          authId: profile.id,
-          registered: new Date()
-        }).save().then((newUser)=>{
-          return done(null, newUser)
-        });
+function createCallbackFunction(strategy){
+  return (accessToken, refreshToken, profile, done) => {
+    User.findOne({strategy: strategy, authId: profile.id}).then((currentUser)=>{
+      if(currentUser){
+        return done(null, currentUser);
+      }
+      new User({
+        strategy: strategy,
+        username: profile.displayName,
+        authId: profile.id,
+        registered: new Date()
+      }).save().then((newUser)=>{
+        return done(null, newUser)
       });
-    }
-  ]
+    });
+  }
 }
 
+const createCallbackURL = (strategy) => `/auth/${strategy}/redirect`;
+
 passport.use(new GitHubStrategy(
-  ...strategySetup("github", process.env.GITHUB_CLIENT_ID, process.env.GITHUB_CLIENT_SECRET)
+  {
+    callbackURL: createCallbackURL("github"),
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET
+  },
+  createCallbackFunction("github")
 ));
 
 passport.use(new GoogleStrategy(
-  ...strategySetup("google", process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET)
+  {
+    callbackURL: createCallbackURL("google"),
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET
+  },
+  createCallbackFunction("google")
 ));
 
 passport.use(new FacebookStrategy(
-  ...strategySetup("facebook", process.env.FACEBOOK_APP_ID, process.env.FACEBOOK_APP_SECRET)
+  {
+    callbackURL: createCallbackURL("facebook"),
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET
+  },
+  createCallbackFunction("facebook")
 ));
 
 passport.use(new LocalStrategy({
